@@ -32,15 +32,17 @@ class BaseRequest:
         except Exception as e:
             console.warn('no previous session')
         try:
-            loginData = requests.get(visitUrl)
-            inputToken = loginData.url
-            magicToken =  inputToken.split('?')[1]
+            nextUrl = requests.get(visitUrl)
+            nextUrl = nextUrl.text[59:108]
+            loginData = requests.get(nextUrl)
+            soup = BeautifulSoup(loginData.text, 'html.parser')
+            magicToken = soup.find('input', {'name':'magic'})['value']  
             jsonData = {
                     'username':f'{username}',
                     'password':f'{password}',
                     'magic':f'{magicToken}'
                      }
-            requests.post(inputToken, data=jsonData)
+            requests.post(nextUrl, data=jsonData)
             console.success("great success!")
             return
         except Exception as e:
