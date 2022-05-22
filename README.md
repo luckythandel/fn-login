@@ -1,4 +1,5 @@
 # Fortinet Firewall
+![logo](./assets/logo/logo.png)
 * Fortinet automatically authenticate using python requests.
 * Username and password are being fetched from `config.json`.
 
